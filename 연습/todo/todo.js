@@ -1,0 +1,65 @@
+/* 
+* todo 리스트
+1. 목록 view = html, 디자인 등등
+2. todo 추가 (생성)
+3  todo 삭제
+*/
+
+
+    //DOM 요소 선택
+    let todoInput = document.getElementById("todoInput") // input
+    let addBtn = document.getElementById("addBtn") // 추가버튼
+    let addDel = document.getElementById("addDel") // 삭제버튼
+    let todoList = document.getElementById("todoList"); // ul
+
+    // 할일을 저장하기 위한 리스트 변수
+    // const todos = []
+
+    function addTodo() { // 투두리스트를 위한 함수정의         
+
+            const newLi = document.createElement('li') // 리스트생성
+            const newSpan = document.createElement('span') // 리스트안에 텍스트
+            const newCheck = document.createElement('input') // 리스트를 선택할 체크박스
+            newCheck.type = "checkbox" // 체크박스로 타입설정
+
+            newSpan.textContent = todoInput.value     
+
+            newSpan.addEventListener('click', () => { // li에 텍스트를 클릭하면
+                newSpan.contentEditable = true; // 텍스트 편집 가능
+                newSpan.focus(); // 커서 이동
+            })
+            
+
+            newSpan.addEventListener('keydown', (e) => { // 키보드를 눌렀을 때
+                if(e.key === "Enter"){ // 엔터키를 눌렀을 때
+                    e.preventDefault(); // 엔터키의 기본 동작을 제어
+                    newSpan.contentEditable = false; // 엔터키를 누르면 텍스트편집 종료
+                }
+            })
+
+            newLi.appendChild(newCheck) // li안에 input추가
+            newLi.appendChild(newSpan) // li안에 span추갸
+            todoList.appendChild(newLi) // li를 ul에 추가
+
+            // todos.push(todoInput.value)
+            // console.log(todos)
+
+            todoInput.value = ''; // 리스트 추가 후 텍스트 비우기
+    }
+
+     addDel.addEventListener('click', () => { // 삭제버튼을 클릭했을 때
+        const items = todoList.querySelectorAll('li'); //li을 items에 저장
+        items.forEach(li => { // ul에 있는 모든 li를 순회하고 매개변수에 저장
+            const checkbox = li.querySelector('input[type="checkbox"]');
+            // li안에 체크박스 타입인 input을 변수에 저장 
+            if(checkbox.checked){ //  체크박스가 체크되어있으면 li삭제
+                todoList.removeChild(li);
+            }
+        })
+      })
+    
+    addBtn.addEventListener('click', () => { // 추가 버튼을 눌렀을 때
+        if(todoInput.value !== ''){ // input의 값이 비어있지 않을 때 *빈값을 방지하기 위함
+            addTodo(); // 함수호출
+        }
+    })

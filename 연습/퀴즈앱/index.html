@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>퀴즈 앱</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="quiz">
+    <h1 id="question">문제가 여기에 표시됩니다.</h1>
+    <div id="answers"></div>
+    <button id="next">다음</button>
+  </div>
+  <script>
+    const quziDate = [
+      {
+        question : "자바스크립트의 자료형이 아닌것은?",
+        answers : ["String", "Number", "Character", "Boolean"],
+        correct : "Character"
+      },
+      {
+        question : "브라우저에서 HTML 요소를 조작하는 객체는?",
+        answers : ["DOM", "BOM", "CSSOM", "JOSN"],
+        correct : "DOM"
+      },
+      {
+        question : "ES6에서 변수를 선언하는 키워드가 아닌 것은?",
+        answers : ["var", "let", "const", "define"],
+        correct : "define"
+      }
+    ];
+
+    const questionEl = document.getElementById("question")
+    const answersEl = document.getElementById("answers")
+    const Btn = document.getElementById("next")
+
+    let current = 0;
+    let score = 0;
+
+    function loadQuiz() {
+      const q = quziDate[current]; // 질문[0]을 변수에 저장
+      questionEl.textContent = q.question;  // 질문객체에 있는 질문부분을 질문박스에 저장
+      answersEl.innerHTML = ''; // 텍스트 포함 html 값 전체를 비움 
+
+      q.answers.forEach(answer => {// 질문에 있는 선택지를 순회
+        const btn = document.createElement("button"); // 버튼을 만들어 변수에 저장
+        btn.textContent = answer; // 선택지를 버튼 안에 텍스트로 추가
+        btn.classList.add("answer-btn"); // 버튼에 class 추가
+        btn.addEventListener("click", selectAnswer); // 버튼 클릭했을 때 선택지함수호출
+        answersEl.appendChild(btn); // 선택지 박스에 버튼 추가 
+      });
+    }
+
+/*     function selectAnswer(e) {
+      const selected = e.target; // 가르키고 있는 이벤트 요소를 변수에 저장
+      const correct = quziDate[current].correct; // 질문[0].정답을 변수에 저장
+      document.querySelectorAll(".answer-btn"). forEach(btn =>{
+         selected.classList.add("selected"); // 선택되어 있는 버튼에 class selected를 추가
+      if (selected.textContent === correct){ // 만약 선택된 버튼에 있는 텍스트내용이 정답과 일치하면
+        selected.classList.add("selected"); // 선택되어 있는 버튼에 class selected를 추가
+        score++; // +1증가
+      }else{ // 조건과 일치하지 않으면 선택된 버튼에 배경을 넣어줌
+        selected.style.backgroundColor = "#ccc";
+      }                
+      });
+    } */
+    
+    Btn.addEventListener("click", function() { // 다음 버튼을 눌렀을 때
+      current++; // 1씩 증가
+      if (current < quziDate.length) { // 만약 현재 갯수가 남은 퀴즈 갯수보다 적으면 실행
+        loadQuiz(); // 문제출제 함수호출
+      }else{ // 조건과 다르면 
+        questionEl.textContent = `퀴즈 종료! 점수: ${score}/${quziDate.length}`;
+        // 퀴즈박스에 퀴즈종료와 정답갯수 / 문제갯수
+        answersEl.innerHTML =''; // 선택지박스에 있는 태그와 텍스트를 전부 비움
+        Btn.style.display = 'none'; // 버튼을 안보이게 함
+      }
+    })
+
+    loadQuiz(); // 퀴즈호출
+
+    function selectAnswer(e) {
+      const selected = e.target; // 가르키고 있는 이벤트 요소를 변수에 저장
+      const correct = quziDate[current].correct; // 질문[0].정답을 변수에 저장
+
+      document.querySelectorAll(".answer-btn").forEach(btn => {
+        btn.classList.remove("selected");
+        btn.style.backgroundColor = "#fff";
+        btn.style.color = "#000";
+      });
+
+      if(selected.classList.contains("selected")){
+        selected.classList.remove("selected");
+        selected.style.backgroundColor = "#fff";
+        selected.style.color = "#000";
+      }else{
+        selected.classList.add("selected");
+
+        if(selected.textContent === correct) {
+          score++;
+          selected.style.backgroundColor = "#e63c44";
+          selected.style.color = "#fff";
+        }else{
+          selected.style.backgroundColor = "#ccc";
+          selected.style.color = "#000";
+        }
+      }
+    }
+    
+  </script>
+</body>
+</html>
+
+<!-- 클릭했을 때 정답이면 바탕이 빨강 아니면 회색 -->

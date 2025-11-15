@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연습문제</title>
+</head>
+<body>
+  <div class='box-1'>
+    <h1>h1 tag</h1>
+    <h2>h2 tag</h2>
+  </div>
+  <div class='box-2'>
+    <h3>h3 tag</h3>
+  </div>
+  <script>
+   const h2El = document.querySelector('h2')
+   const h2Delated = h2El.parentElement.removeChild(h2El)
+   const boxEl = document.querySelector('.box-2')
+   boxEl.appendChild(h2Delated)
+  </script>
+</body>
+</html>

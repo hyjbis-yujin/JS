@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>계산기</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" readonly />
+    <div class="buttons">
+      <button>7</button><button>8</button><button>9</button><button>/</button>
+      <button>4</button><button>5</button><button>6</button><button>*</button>
+      <button>1</button><button>2</button><button>3</button><button>-</button>
+      <button>0</button><button>.</button><button>=</button><button>+</button>
+      <button id="clear">C</button>
+    </div>
+  </div>
+  <script>
+    // 1.숫자를 누르면 계산기 화면에 숫자가 나와야함
+    // 2. 버튼이 작동되어야 함
+    // 2. 연산이 되어야함
+    const dpEl = document.querySelector("#display"); // 계산기 화면
+    const btnEl = document.querySelectorAll("button"); // 숫자 및 전체
+    const calcBtn = document.querySelectorAll("button:nth-child(4n)"); // 연산
+    const clearBtn = document.querySelector("#clear"); // 초기화
+    let currentInput = ""; // 연산을 위한 숫자 저장
+    //연산자를 연속으로 사용x
+    //연산자 먼저 입력 x
+    //소수점도 연속으로 사용x
+
+    btnEl.forEach(btn => {
+        btn.addEventListener("click", function() {
+            const value = this.textContent; // 버튼안에 텍스트를 변수에 저장
+
+            if(value === "C"){ // 초기화
+                dpEl.value = ''; // 인풋에 있는 텍스트 비움
+                currentInput = ''; // 변수에 담겨 있던 텍스트 비움
+            }else if(value === "="){ // 계산
+                if(currentInput === '') return;
+                dpEl.value = eval(currentInput); // 인풋에 있는 문자열인 숫자를 숫자형으로 변경
+                currentInput = dpEl.value; // 숫자형으로 바꾼 값을 인풋에 다시 저장
+            }else{ // 연산자 연속으로 사용 방지
+                const operators = ["+", "-", "*", "/", "."]; // 방지 할 연산자 배열
+                // 클릭한 버튼들 중에 연산자배열에 있는 텍스트가 있는 지 확인 
+                // 연산자배열에서 값을 저장한 변수에 마지막 값을 잘라서 연산자가 있는 지 확인
+                // 1+2 에서 2를 빼면 식에서 남는 건 '+'
+                // 조건 2개가 둘 다 참이면 리턴 실행 즉시 종료 다음 코드가 실행되지 않음
+                
+                if(currentInput === "" && operators.includes(value)){
+                    return
+                }else if(operators.includes(value) && operators.includes(currentInput.slice(-1))){
+                    return;
+                }
+                currentInput += value;
+                dpEl.value = currentInput;
+                
+            }
+            
+        });  
+    });
+    
+    // clearBtn.addEventListener("click", () => {
+    //     dpEl.value = '';
+
+    // });
+
+  </script>
+</body>
+</html>
+
+<!-- 질문 -->
+<!-- try...catch는 어떤경우에 사용하는건가? -->
+<!-- try.. -->

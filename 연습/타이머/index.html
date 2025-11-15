@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>타이머</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="timer">
+    <h1 id="time">00:00:00</h1>
+    <div class="controls">
+      <button id="start">Start</button>
+      <button id="stop">Stop</button>
+      <button id="reset">Reset</button>
+    </div>
+  </div>
+  <script>
+    // 1.시작버튼
+    // 2.스탑버튼 
+    // 3.리셋버튼
+    // 4.버튼을 누르면 카운팅이 되어야함
+
+    const timeEl = document.querySelector("#time")
+    const startBtn = document.querySelector("#start")
+    const stopBtn = document.querySelector("#stop")
+    const resetBtn = document.querySelector("#reset")
+    let interval;
+    let seconds = 0;
+
+
+    //초기값 0초
+
+    function updateTimer(){
+      let hrs = Math.floor(seconds / 3600);
+      let mins = Math.floor((seconds % 3600/ 60));
+      let secs = seconds % 60;
+      timeEl.textContent = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    };
+
+    startBtn.addEventListener("click", () => { // 스타트버튼을 눌렀을 때
+      if(!interval){ // 만약 인터벌변수가 없을 때
+        interval = setInterval(() => { // 인터벌변수에 1초마다 1씩증가하고 타이머기능을 가진 updateTimer함수 호출
+          seconds++;
+          updateTimer();
+        }, 1000);
+      }
+    });
+
+    stopBtn.addEventListener('click', () => {
+      clearInterval(interval); // setInterval을 멈춤
+      interver = null; // 스타트버튼의 조건이 if(!interval) 인터벌에 값이 없을 때만 실행이니까 null로 값을 비워줌
+    });
+
+    resetBtn.addEventListener('click', () => {
+      clearInterval(interval);
+      interval = null;
+      seconds = 0;
+      updateTimer();
+    })
+
+
+  </script>
+</body>  
+</html>

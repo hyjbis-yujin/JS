@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>숫자 맞추기 게임</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="guess-game">
+    <h1>숫자 맞추기 게임</h1>
+    <input type="number" id="guess" placeholder="1~100">
+    <button id="check">확인</button>
+    <p id="message"></p>
+  </div>
+  <script>
+    const checkBtn = document.querySelector("#check");
+    const guessEl = document.querySelector("#guess");
+    const msgEl = document.querySelector("#message");
+    const correct = Math.floor(Math.random() * 100) + 1;
+    //  Math.floor는 무조건 내림이라 99까지만 출력되서 +1
+
+    checkBtn.addEventListener("click", () => {
+      const guess = Number(guessEl.value);
+
+      if(guess === correct){
+        msgEl.textContent = '정답입니다!'
+      }else if(guess > correct){
+        msgEl.textContent = '아래입니다'
+      }else{
+        msgEl.textContent = '위입니다'
+      }
+        // 만약 인풋에 있는 숫자가 정답과 같으면 정답입니다를 p태그에 출력
+      // 만약 정답보다 높으면 아래입니다를 p태그에 출력
+      // 만약 정답보다 낮으면 위입니다를 p태그에 출력
+    });
+
+    
+  </script>
+</body>
+</html>

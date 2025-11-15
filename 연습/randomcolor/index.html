@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Random HEX Color Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <h1 id="colorText">#e63c44</h1>
+      <button id="changeBtn">New Colour</button>
+      <a href="https://www.sucoding.kr" target="_blank">@sucoding</a>
+    </div>
+    <script>
+      // const titEl = document.querySelector("#colorText");
+      const btnEl = document.querySelector("#changeBtn");
+      // const linkEl = document.querySelector("a")[0];
+
+      btnEl.addEventListener('click', function(){
+        const randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        document.body.style.backgroundColor = randomColor;
+        this.previousElementSibling.textContent = randomColor;
+      })
+    </script>
+  </body>
+</html>

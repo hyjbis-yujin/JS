@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@900&display=swap");
+body {
+  background-color: #363636;
+}
+
+#clock {
+  font-family: "Work Sans", sans-serif;
+  color: rgb(153, 140, 255);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10vw;
+}

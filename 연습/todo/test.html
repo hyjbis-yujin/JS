@@ -1,0 +1,51 @@
+<body>
+    <h1>Todo List</h1>
+
+    <input type="text" id="todoInput" placeholder="할일을 입력하세요"/>
+    <button id="addBtn">추가</button>
+    <ul id ="todoList">
+        <li></li>
+    </ul>
+   <script>
+    // 할일을 저장하기 위한 리스트 변수
+    const todos = []
+
+    //DOM 요소 선택
+    let todoInput = document.getElementById("todoInput") // input tag
+    let addBtn = document.getElementById("addBtn") // 추가버튼
+    let todoList = document.getElementById("todoList"); // ul
+
+    function addTodo() { // > 투두리스트를 위한 함수정의         
+        // todo 추가 로직 작성
+        // 1.input 입력한 텍스트 값을 알아야함 > 텍스트를 불러올 반복문
+        // 2.todos에 가져온 text 저장 > 변수에 저장 
+        // 3.li element 생성 > 추가 버튼을 눌렀을 때 리스트가 생성
+        // 4.li에 text 넣기
+        // 5.ul에 li 넣기 
+        // 6.삭제기능, 수정기능 까지
+    }
+    
+
+
+
+    if(addBtn.addEventListener("click")){
+        const newLi = document.createElement('li')
+        const newSpan = document.createElement('span')
+        const newBtn = document.createElement('button')
+
+        newLi.appendChild(newBtn)
+        newLi.appendChild(newSpan)
+        console.log(newLi)
+    }
+
+newSpan.textContent = todoInput.vaule
+
+
+     
+            for(let i = 0; i > todoInput.length; i++){ // 1.input 입력한 텍스트 값을 알아야함
+            todos += todoInput[i] // 2.todos에 가져온 text 저장
+
+        }
+
+    addBtn.addEventListener("click", addTodo);
+   </script> 

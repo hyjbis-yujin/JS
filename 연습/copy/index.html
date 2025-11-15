@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>복사 및 붙여넣기 금지</title>
+  </head>
+  <body>
+    <form>
+      <textarea>복사(ctrl + c) 및 붙여넣기(ctrl + v) 금지</textarea>
+    </form>
+    <script>
+      const textareaEl = document.querySelector('textarea');
+      textareaEl.addEventListener("keydown", (e) => {
+        if(e.ctrlKey && e.code === 'KeyC'){
+          e.preventDefault();
+        }
+
+        if(e.ctrlKey && e.code === 'KeyV'){
+          e.preventDefault();
+        }
+      })
+    </script>
+  </body>
+</html>

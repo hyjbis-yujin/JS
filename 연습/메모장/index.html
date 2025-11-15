@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>메모장</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="memo">
+    <h1>메모장</h1>
+    <textarea id="note" placeholder="내용을 입력하세요..."></textarea>
+    <button id="save">저장</button>
+    <button id="clear">삭제</button>
+  </div>
+  <script>
+    const noteEl = document.querySelector('#note');
+    const saveBtn = document.querySelector('#save');
+    const clearBtn = document.querySelector('#clear');
+
+    saveBtn.addEventListener("click", () =>{
+      localStorage.setItem("note", noteEl.value);
+      alert('저장되었습니다.');
+    });
+
+    clearBtn.addEventListener("click", () => {
+      noteEl.value = '';
+      localStorage.removeItem("note")
+    });
+
+    window.addEventListener('load', () => { // 윈도우가 로드됐을 때
+      const saved = localStorage.getItem("note"); // 저장된 텍스트를 가져와 변수에 저장
+      if(saved){ // 만약 가져온 텍스트 값이 있으면
+        noteEl.value = saved; // 메모장에 가져온 값을 넣어준다
+      }
+    })
+  </script>
+</body>
+</html> 
