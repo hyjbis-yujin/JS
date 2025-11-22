@@ -12,7 +12,7 @@ class ModalManager {
   // 모달 관리 클래스
   constructor() {
     // 객체 초기화(기본값 설정)
-    this.modals = new Map(); // 모달의 정보를 저장할 Map 객체 생성
+    this.modals = new Map(); // 모달의 정보를 저장할 Map 객체 생성 -> 키(key), 값(value)형태로 데이터를 저장됨
 
     this.currentModal = null; // 열려있는 모달을 저장 => 처음엔 모달이 안 열려있어서 null로 초기화
 
@@ -23,7 +23,7 @@ class ModalManager {
   }
 
   initializeProjectData() {
-    // project-datad(속성)의 값에 데이터를 담은 메서드
+    // projectId(1,2,3,4) 에 해당하는 프로젝트 설명/기능/기술스택 정보를 반환하는 메서드
     return {
       1: {
         title: "E-Commerce Platform",
@@ -103,18 +103,130 @@ class ModalManager {
   // [todo]: 배경 클릭시 모달 닫기
   // [todo]: ESC 입력시 모달 닫기
 
+  // 모달 트리거(버튼) 설정 메서드
+
   setupModalTriggers() {
-    // 모달을 열기위한 트리거(버튼) 설정 메서드
-    // 프로젝트 보기 버튼 클릭시 모달 열기
     // btn-view를 클릭 했을 때 이벤트를 감지해야한다.
     document.querySelectorAll(".btn-view").forEach((btn) => {
-      // 모든 .btn-view를 선택해서 각각에 클릭 이벤트리스너를 추가
+      // 모든 .btn-view를 선택해서 각각에 클릭 이벤트 추가
       btn.addEventListener("click", (e) => {
-        //e는 이벤트 객체(현재 클릭된 요소에 대한 정보를 담음)
+        //e는 이벤트 객체(현재 클릭된 요소, 정보를 담음)
         console.log(e);
-        const projectId = e.target.getAttribute("data-project"); // 이벤트 타겟(클릭된 버튼)에 data-project 속성값을 가져와서 변수에 저장 -> 어떤 프로젝트의 모달이 열렸는 지 확인을 위함
-        this.openModal(projectId); // 이벤트 타겟의 data-project속성 값을 openModal 메서드에 전달해서 해당 값에 맞는 프로젝트 내용을 찾아 모달에 표시 함
+        const projectId = e.target.getAttribute("data-project"); // 이벤트 타겟(클릭된 버튼)에 data-project 속성 값을 가져와서 변수에 저장 -> 어떤 프로젝트를 열어야하는 지 구분하기 위함
+        this.openModal(projectId); // projectId을 openModal 메서드에 전달해서 해당 값에 맞는 프로젝트 내용을 찾아 모달을 화면에 표시
       });
     });
   }
+
+  /**
+   * 모달 생성
+   *
+   * @param {number} projectId  // 메서드의 매개변수를 숫자타입으로 사용을 명시
+   */
+  createModal(projectId) {
+    // 모달생성 메서드
+    // 프로젝트 번호에 맞는 데이터 가져오기
+    const project = this.projectData[projectId]; // projectData(프로젝트 정보를 담음)에서 해당하는 프로젝트 정보를 찾아 변수에 저장
+
+    if (!project) return null; // 만약 해당 이벤트 타겟의 정보가 없으면 프로젝트 데이터가 없으면 빈값 반환해 더 이상 처리하지 않음
+
+    const modal = document.createElement("div"); // html문서에 div를 생성해서 변수에 저장 -> 모달을 담기 위함
+    modal.className = "modal"; // 생성한 div의 클래스 이름추가 -> styling을 위함
+    modal.id = `modal-${projectId}`; // 생성한 div의 id추가 modal-{이벤트 타겟 속성 값} -> 모달 식별용
+
+    // div(모달)의 내부 html 구조 설정
+    modal.innerHTML = ` 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">${
+                      project.title /*현재 선택된 이벤트타겟의 프로젝트 제목*/
+                    }</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-image"></div>
+                    <p class="modal-description">${
+                      project.description /* 현재 선택된 이벤트 타겟의 프로젝트 설명*/
+                    }</p>
+                    <h3 style="margin-bottom: 15px;">주요 기능:</h3>
+                    <ul class="modal-features">
+                        ${project.features // 현재 선택된 이벤트 타겟의 속성에 있는 주요기능 배열을
+                          .map((feature) => {
+                            // 각각 순회하면서 매개변수에 저장
+                            return `<li>${feature}</li>`; // li태그로 감싸서 반환
+                          }) // 배열을 하나의 문자열로 구분자(쉼표) 없이 합함
+                          .join("")} 
+                    </ul>
+                    <div style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 15px;">기술 스택:</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            ${project.tech // 현재 선택된 이벤트 타겟의 속성에 있는 기술스택 배열을
+                              .map((tech) => `<span class="tag">${tech}</span>`) // 각각 순회하면서 매개변수에 저장 -> span태그로 감싸서 배열을 구분자 없이 문자열로 반환
+                              .join("")}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+    // [todo]: 모달 닫기 버튼에 action 넣기
+
+    return modal; // 완성된 모달을 반환
+  }
+
+  /**
+   * 모달 오픈 메서드
+   *
+   * 모달을 열때 이전에 생성된 모달이 있으면 그거 사용 아니면 만들어서 사용
+   * @param {*} projectId // 메서드의 매개변수를 모든 타입 사용을 명시
+   */
+  openModal(projectId) {
+    let modal = this.modals.get(projectId); // Map(this.modals)에 projectId를 key로 저장된 모달을 가져옴
+
+    if (!modal) {
+      // 만약 이전에 생성된 모달이 없으면
+      modal = this.createModal(projectId); // 생성모달 메서드를 호출해서 모달을 생성
+      if (modal) {
+        // 모달이 생성됐으면
+        document.body.appendChild(modal); // 생성된 모달을 html문서의 body태그의 마지막 자식요소로 추가
+
+        this.modals.set(projectId, modal); // 생성된 모달의 정보(속성의 값, 생성된 모달(document.createElement("div")))를 map객체에 추가
+      }
+    }
+
+    this.currentModal = modal; // 현재 열려있는 모달을 메서드에 저장
+    modal.style.display = "flex"; // 모달의 display 스타일 속성을 none에서 flex로 변경 -> 모달이 화면에 보여지게 됨
+
+    setTimeout(() => {
+      modal.classList.add("active"); // modal에 class추가
+    }, 10); // 0.01초 후에 실행
+
+    // body 스크롤 잠금
+  }
+
+  /* 모달 닫기 메서드
+   */
+  closeModal() {
+    if (this.currentModal) {
+      // 만약 열려있는 모달이 있으면
+      this.currentModal.classList.remove("active"); // 열려있는 모달의 해당 class를 제거
+
+      setTimeout(() => {
+        if (this.currentModal) {
+          // 만약 열려있는 모달이 있으면
+          this.currentModal.style.display = "none"; // 모달의 display 스타일 속성을 none으로 변경 -> 모달이 화면에서 보이지 않게 됨
+          this.currentModal = null; // 열려있는 모달 상태 리셋 (아무것도 안 열린 상태로)
+        }
+      }, 300); // 0.3초 후에 실행
+    }
+
+    // body 스크롤 복원
+  }
 }
+
+let modalMaanger; // ModalManager 인스턴스를 저장하기 위한 변수 (전역에서 접근 가능)
+
+document.addEventListener("DOMContentLoaded", () => {
+  // html문서의 모든 요소가 로드되고 이벤트 실행 -> 이벤트요소가 아직 로드되지 않은 상태에서 이벤트가 실행되는 걸 방지
+  modalMaanger = new ModalManager(); // ModalManager 클래스의 객체를 생성해서 변수에 저장
+});
