@@ -20,6 +20,7 @@ class ModalManager {
 
     // 이벤트 리스너
     this.setupModalTriggers();
+    this.setupEscClose();
   }
 
   initializeProjectData() {
@@ -100,8 +101,16 @@ class ModalManager {
    * 3. ESC 클릭 -> 모달 닫기
    */
 
-  // [todo]: 배경 클릭시 모달 닫기
-  // [todo]: ESC 입력시 모달 닫기
+  // esc모달 닫기
+  setupEscClose() {
+    // openModal에 넣지 않고 별도 메서드를 만든 이유  => 모달이 있어도 없어도 키보드 전체에서 감지가능, 이벤트 중복등록 방지
+    // todo : ESC 클릭 시 모달 닫기
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        this.closeModal();
+      }
+    });
+  }
 
   // 모달 트리거(버튼) 설정 메서드
 
@@ -169,8 +178,6 @@ class ModalManager {
             </div>
         `;
 
-    // [todo]: 모달 닫기 버튼에 action 넣기
-
     return modal; // 완성된 모달을 반환
   }
 
@@ -191,6 +198,21 @@ class ModalManager {
         document.body.appendChild(modal); // 생성된 모달을 html문서의 body태그의 마지막 자식요소로 추가
 
         this.modals.set(projectId, modal); // 생성된 모달의 정보(속성의 값, 생성된 모달(document.createElement("div")))를 map객체에 추가
+
+        // todo : 배경 클릭 시 모달 닫기, 버튼 클릭 시 모달 닫기
+        modal.addEventListener("click", (e) => {
+          // openModal메서드에 넣은 이유 => class="modal"과 class=".modal-close"는 모달이 있을 때만 의미있는 이벤트이기 때문에
+          const closeBtn = modal.querySelector(".modal-close");
+
+          if (e.target === modal) {
+            // 현재 이벤트 대상이 .modal과 일치할 때 모달닫기 메서드 호출
+            this.closeModal();
+          }
+          if (e.target === closeBtn) {
+            // 현재 이벤트 대상이 .modal-close와 일치 할때 모달닫기 메서드 호출
+            this.closeModal();
+          }
+        });
       }
     }
 
@@ -224,9 +246,9 @@ class ModalManager {
   }
 }
 
-let modalMaanger; // ModalManager 인스턴스를 저장하기 위한 변수 (전역에서 접근 가능)
+let modalManager; // ModalManager 인스턴스를 저장하기 위한 변수 (전역에서 접근 가능)
 
 document.addEventListener("DOMContentLoaded", () => {
   // html문서의 모든 요소가 로드되고 이벤트 실행 -> 이벤트요소가 아직 로드되지 않은 상태에서 이벤트가 실행되는 걸 방지
-  modalMaanger = new ModalManager(); // ModalManager 클래스의 객체를 생성해서 변수에 저장
+  modalManager = new ModalManager(); // ModalManager 클래스의 객체를 생성해서 변수에 저장
 });

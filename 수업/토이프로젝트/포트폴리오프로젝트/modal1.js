@@ -114,7 +114,7 @@ class ModalMaanger {
   /**
    * 모달 생성
    *
-   * @param {number} projectId
+   * @param {number} projectId  // 이벤트 타겟의 속성 값이 숫자형으로 쓰인다는걸 명시
    */
   createModal(projectId) {
     // 프로젝트 번호에 맞는 데이터 가져오기
@@ -188,6 +188,7 @@ class ModalMaanger {
     }, 10);
 
     // body 스크롤 잠금
+    document.body.classList.add("body-lock");
   }
 
   closeModal() {
@@ -203,6 +204,7 @@ class ModalMaanger {
     }
 
     // body 스크롤 복원
+    document.body.classList.remove("body-lock");
   }
 }
 
@@ -212,18 +214,6 @@ document.addEventListener("DOMContentLoaded", () => {
   modalMaanger = new ModalMaanger();
 });
 
-// 파일 저장
-/* 
-1.git status
-2.git add .
-3.git commit -m "모달 class생성"
-4.git add .
-5.git commit -m "모달 트리거 메소드 생성"
-6.git add .
-7.git commit -m "모달 생성 메소드 생성"
-8.git push git에 올리기
- */
-
 // map : 배열을 순회해서ㅏ 수정을 하고 배열로 반환
 // join : 합쳐서 문자열로 반환 (''빈칸으로 구분)
 
@@ -232,3 +222,4 @@ document.addEventListener("DOMContentLoaded", () => {
 // todo : ESC 클릭 시 모달 닫기
 // 주석 달기
 // 깃에 올리기
+// 마지막에 push
