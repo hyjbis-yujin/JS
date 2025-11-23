@@ -224,6 +224,7 @@ class ModalManager {
     }, 10); // 0.01초 후에 실행
 
     // body 스크롤 잠금
+    document.body.classList.add("body-lock");
   }
 
   /* 모달 닫기 메서드
@@ -243,6 +244,7 @@ class ModalManager {
     }
 
     // body 스크롤 복원
+    document.body.classList.remove("body-lock");
   }
 }
 
