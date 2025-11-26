@@ -20,7 +20,6 @@ class ModalManager {
 
     // 이벤트 리스너
     this.setupModalTriggers();
-    this.setupEscClose();
   }
 
   initializeProjectData() {
@@ -125,6 +124,8 @@ class ModalManager {
         this.openModal(projectId); // projectId을 openModal 메서드에 전달해서 해당 값에 맞는 프로젝트 내용을 찾아 모달을 화면에 표시
       });
     });
+
+    this.setupEscClose();
   }
 
   /**

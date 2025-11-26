@@ -210,8 +210,9 @@ const statObserver = new IntersectionObserver((entries, observer) => {
       // targetNum : data-target 속성값(문자열)을 가져와서 숫자로 변환
       // 앞의 + 기호는 문자열을 숫자로 변환하는 "단항 덧셈 연산자"
       // 예: +"1500" → 1500 (Number로 바뀜)
+      console.log(targetNum);
 
-      animateCounter(observerEntry.target, targetNum, 2000);
+      animateCounter(observerEntry.target, targetNum, 5000);
       // observerEntry.target → 현재 화면에 나타난 요소
       // targetNum → 목표 숫자
       // 2000 → 2초 동안 숫자 카운트 애니메이션 실행
@@ -298,3 +299,57 @@ count(10, 0) */
 
 // 1. 아이콘을 없앴다가 5초 뒤에 띄우기
 //2. 코드 주석
+
+/* 버튼 클릭 시 해당 위치로 이동하는 함수 */
+
+function heroBtnAction() {
+  // hero 버튼 컨테이너 가져오기
+  const heroButtonContainer = document.querySelector(".hero .hero-buttons");
+
+  if (!heroButtonContainer) {
+    return;
+  }
+
+  //hero 버튼 컨테이너 안에 있는 버튼 가져오기
+  const heroProjectBtn = document.querySelector(".btn.btn-primary");
+  const heroContectBtn = document.querySelector(".btn.btn-secondary");
+
+  console.log("");
+
+  if (heroProjectBtn) {
+    heroProjectBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // 기본 동작 방지
+      //e.stopPropagation(); //
+
+      // 이동 to project
+      const projectSection = document.querySelector("#projects");
+      const navBar = document.querySelector("nav");
+      if (projectSection && navBar) {
+        const navHeight = navBar.offsetHeight;
+        window.scrollTo({
+          top: projectSection.offsetTop - navHeight,
+          behavior: "smooth",
+        });
+      }
+    });
+  }
+  if (heroContectBtn) {
+    heroContectBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // 기본 동작 방지
+      //e.stopPropagation(); //
+
+      // 이동 to project
+      const projectSection = document.querySelector("#projects");
+      const navBar = document.querySelector("nav");
+      if (projectSection && navBar) {
+        const navHeight = navBar.offsetHeight;
+        window.scrollTo({
+          top: projectSection.offsetTop - navHeight,
+          behavior: "smooth",
+        });
+      }
+    });
+  }
+}
+
+heroBtnAction();
